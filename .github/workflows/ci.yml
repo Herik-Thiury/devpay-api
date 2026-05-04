@@ -1,0 +1,41 @@
+name: Pipeline CI - DevPay
+
+# 1. Gatilhos:
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# 2. As Tarefas: 
+jobs:
+  integracao-continua:
+    runs-on: ubuntu-latest # O servidor do Github
+
+    steps:
+    # A. Baixa o código do nosso repositório
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    # B. Prepara o ambiente instalando o Node.js
+    - name: Setup do Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    # C. Instala as dependências de forma limpa
+    - name: Instalação de dependências
+      run: npm ci
+
+    # D. Verifica se o código está nos padrões (sem erros de sintaxe)
+    - name: Verificação de Qualidade (Lint)
+      run: npm run lint
+
+    # E. Tenta "compilar" o código TypeScript
+    - name: Build da aplicação
+      run: npm run build
+
+    # F. Roda a nossa malha de testes unitários
+    - name: Testes Automatizados
+      run: npm run test

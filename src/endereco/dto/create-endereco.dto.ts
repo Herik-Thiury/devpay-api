@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsString, IsOptional, MaxLength, IsBoolean, IsInt, Matches } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  MaxLength,
+  IsBoolean,
+  IsInt,
+  Matches,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateEnderecoDto {
@@ -34,17 +42,19 @@ export class CreateEnderecoDto {
 
   @IsNotEmpty({ message: 'O CEP é obrigatório.' })
   @IsString({ message: 'O CEP deve ser uma string.' })
-  @Matches(/^\d{5}-?\d{3}$/, { message: 'O CEP deve ser um formato válido (ex: 12345-678).' })
+  @Matches(/^\d{5}-?\d{3}$/, {
+    message: 'O CEP deve ser um formato válido (ex: 12345-678).',
+  })
   @MaxLength(9)
   cep: string;
 
   @IsOptional()
   @IsBoolean({ message: 'O campo principal deve ser booleano.' })
   @Type(() => Boolean)
-  principal?: boolean = false; 
-  
+  principal?: boolean = false;
+
   @IsNotEmpty({ message: 'O ID do cliente é obrigatório para testes.' })
   @IsInt({ message: 'O ID do cliente deve ser um número inteiro.' })
   @Type(() => Number)
-  clienteId: number; 
+  clienteId: number;
 }

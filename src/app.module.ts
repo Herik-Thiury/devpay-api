@@ -13,22 +13,26 @@ import { PagamentoModule } from './pagamento/pagamento.module';
   imports: [
     // 1. Configura o módulo de ambiente para ler o .env
     ConfigModule.forRoot({
-      isGlobal: true, 
+      isGlobal: true,
     }),
-    
+
     // 2. Configura o TypeORM de forma assíncrona (prática recomendada)
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: configService.get<any>('DATABASE_TYPE'), 
-        host: configService.get<string>('DATABASE_HOST'), 
-  
-        port: parseInt(configService.get<string>('DATABASE_PORT') ?? '3306', 10), 
-        username: configService.get<string>('DATABASE_USERNAME'), 
-        password: configService.get<string>('DATABASE_PASSWORD'), 
-        database: configService.get<string>('DATABASE_NAME'), 
-        
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        type: configService.get<any>('DATABASE_TYPE'),
+        host: configService.get<string>('DATABASE_HOST'),
+
+        port: parseInt(
+          configService.get<string>('DATABASE_PORT') ?? '3306',
+          10,
+        ),
+        username: configService.get<string>('DATABASE_USERNAME'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true, // Apenas para desenvolvimento
       }),

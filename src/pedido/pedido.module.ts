@@ -11,13 +11,7 @@ import { ItemPedido } from '../item-pedido/entities/item-pedido.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Pedido,
-      Cliente,
-      Endereco,
-      Produto,
-      ItemPedido
-    ]),
+    TypeOrmModule.forFeature([Pedido, Cliente, Endereco, Produto, ItemPedido]),
     ItemPedidoModule,
   ],
   controllers: [PedidoController],

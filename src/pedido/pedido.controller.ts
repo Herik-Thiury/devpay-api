@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, UsePipes, ValidationPipe, Patch, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
+  Patch,
+  HttpCode,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { Pedido } from './entities/pedido.entity';
@@ -20,7 +33,9 @@ export class PedidoController {
   }
 
   @Get('cliente/:clienteId')
-  findAllByCliente(@Param('clienteId', ParseIntPipe) clienteId: number): Promise<Pedido[]> {
+  findAllByCliente(
+    @Param('clienteId', ParseIntPipe) clienteId: number,
+  ): Promise<Pedido[]> {
     return this.pedidoService.findAllByCliente(clienteId);
   }
 

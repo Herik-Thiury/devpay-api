@@ -7,9 +7,9 @@ import { Produto } from '../produto/entities/produto.entity';
 
 @Module({
   // ItemPedido precisa de Produto para verificar estoque/preço
-  imports: [TypeOrmModule.forFeature([ItemPedido, Produto])], 
-  controllers: [ItemPedidoController], 
-  providers: [ItemPedidoService], 
-  exports: [ItemPedidoService, TypeOrmModule], 
+  imports: [TypeOrmModule.forFeature([ItemPedido, Produto])],
+  controllers: [ItemPedidoController],
+  providers: [ItemPedidoService],
+  exports: [ItemPedidoService, TypeOrmModule],
 })
 export class ItemPedidoModule {}

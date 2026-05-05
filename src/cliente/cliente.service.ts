@@ -23,8 +23,10 @@ export class ClienteService {
     const { email, senha } = createClienteDto;
 
     // 1. Regra de Negócio: Verificar se o e-mail já está cadastrado
-    const clienteExistente = await this.clienteRepository.findOne({ where: { email } });
-    
+    const clienteExistente = await this.clienteRepository.findOne({
+      where: { email },
+    });
+
     if (clienteExistente) {
       this.logger.warn(`Tentativa de cadastro com email duplicado: ${email}`);
       throw new BadRequestException('Este email já está em uso.');
@@ -33,16 +35,14 @@ export class ClienteService {
     // 2. Criptografar a senha
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(senha, salt);
-    
+
     // 3. Criar e Salvar no Banco
     const novoCliente = this.clienteRepository.create({
       ...createClienteDto,
       senha: hashedPassword,
     });
-    
+
     // O Exclude() na entidade garante que a senha não retorne para o cliente
     return this.clienteRepository.save(novoCliente);
   }
-
-  
 }

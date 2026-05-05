@@ -1,4 +1,10 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ClienteService } from './cliente.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { Cliente } from './entities/cliente.entity';
@@ -10,7 +16,7 @@ export class ClienteController {
   /**
    * Rota POST /cliente para cadastrar um novo cliente.
    * @param createClienteDto Dados de criação do cliente
-   * @returns 
+   * @returns
    */
   @Post()
   // Aplica a validação do DTO
@@ -18,5 +24,4 @@ export class ClienteController {
   async create(@Body() createClienteDto: CreateClienteDto): Promise<Cliente> {
     return this.clienteService.create(createClienteDto);
   }
-
 }

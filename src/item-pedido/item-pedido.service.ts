@@ -15,7 +15,10 @@ export class ItemPedidoService {
     private produtoRepository: Repository<Produto>,
   ) {}
 
-  async createItem(pedido: Pedido, itemDto: ItemPedidoDto): Promise<ItemPedido> {
+  async createItem(
+    pedido: Pedido,
+    itemDto: ItemPedidoDto,
+  ): Promise<ItemPedido> {
     const { produtoId, quantidade } = itemDto;
 
     const produto = await this.produtoRepository.findOne({
@@ -23,7 +26,9 @@ export class ItemPedidoService {
     });
 
     if (!produto) {
-      throw new BadRequestException(`Produto com ID ${produtoId} não encontrado ou inativo.`);
+      throw new BadRequestException(
+        `Produto com ID ${produtoId} não encontrado ou inativo.`,
+      );
     }
 
     if (produto.estoque < quantidade) {
@@ -31,7 +36,7 @@ export class ItemPedidoService {
         `Estoque insuficiente para o produto ${produto.nome}. Disponível: ${produto.estoque}, Solicitado: ${quantidade}.`,
       );
     }
-    
+
     const precoVenda = produto.preco;
     const subtotal = precoVenda * quantidade;
 

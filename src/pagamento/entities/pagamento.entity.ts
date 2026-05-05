@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Pedido } from '../../pedido/entities/pedido.entity';
 
 // Enum para o status do pagamento
@@ -24,7 +30,7 @@ export class Pagamento {
   status: PagamentoStatus;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  valor: number; 
+  valor: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dataPagamento: Date;

@@ -12,4 +12,4 @@ async function bootstrap() {
 
   await app.listen(3000); // Backend na porta 3000
 }
-bootstrap();
+bootstrap().catch((err) => console.error(err));

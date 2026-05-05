@@ -26,7 +26,6 @@ export class Cliente {
 
   @OneToMany(() => Endereco, (endereco) => endereco.cliente)
   enderecos: Endereco[];
-  
 
   @OneToMany(() => Pedido, (pedido) => pedido.cliente)
   pedidos: Pedido[];

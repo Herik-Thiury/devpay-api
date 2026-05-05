@@ -1,4 +1,9 @@
-import { IsNotEmpty, IsInt, ValidateNested, ArrayMinSize } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsInt,
+  ValidateNested,
+  ArrayMinSize,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ItemPedidoDto } from './item-pedido.dto';
 

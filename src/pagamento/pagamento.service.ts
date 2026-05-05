@@ -9,7 +9,7 @@ import { Pagamento, PagamentoStatus } from './entities/pagamento.entity';
 import { CreatePagamentoDto } from './dto/create-pagamento.dto';
 import { Pedido, PedidoStatus } from '../pedido/entities/pedido.entity';
 import { Produto } from '../produto/entities/produto.entity'; // Importa Produto para manipular estoque
-import { ItemPedido } from '../item-pedido/entities/item-pedido.entity'; 
+import {} from '../item-pedido/entities/item-pedido.entity';
 
 @Injectable()
 export class PagamentoService {
@@ -47,12 +47,16 @@ export class PagamentoService {
       });
 
       if (!pedido) {
-        throw new NotFoundException(`Pedido com ID ${pagamentoDto.pedidoId} não encontrado.`);
+        throw new NotFoundException(
+          `Pedido com ID ${pagamentoDto.pedidoId} não encontrado.`,
+        );
       }
 
       // Regra 1: Só é possível criar pagamento para pedidos AGUARDANDO_PAGAMENTO
       if (pedido.status !== PedidoStatus.AGUARDANDO_PAGAMENTO) {
-        throw new BadRequestException('O pedido não está no status correto para pagamento (AGUARDANDO_PAGAMENTO).');
+        throw new BadRequestException(
+          'O pedido não está no status correto para pagamento (AGUARDANDO_PAGAMENTO).',
+        );
       }
 
       // 1. Cria o registro de pagamento
@@ -70,25 +74,26 @@ export class PagamentoService {
       if (novoStatusPagamento === PagamentoStatus.PAGO) {
         // A. Se PAGO, DEBITA O ESTOQUE e muda o status do Pedido para PAGO
         novoStatusPedido = PedidoStatus.PAGO;
-        
+
         for (const item of pedido.itens) {
           const produto = item.produto; // ItemPedido tem relação direta com Produto
           const novoEstoque = produto.estoque - item.quantidade;
-          
+
           // Validação de segurança final antes do débito (pode ter mudado)
           if (novoEstoque < 0) {
-            throw new BadRequestException(`Falha na transação: Estoque insuficiente para o produto ${produto.nome}.`);
+            throw new BadRequestException(
+              `Falha na transação: Estoque insuficiente para o produto ${produto.nome}.`,
+            );
           }
-          
+
           // Débito de Estoque (Regra Crítica)
           await produtoRepo.update(produto.id, { estoque: novoEstoque });
         }
-        
       } else if (novoStatusPagamento === PagamentoStatus.CANCELADO) {
         // B. Se CANCELADO, marca o pedido como CANCELADO (Estoque NÃO é alterado)
         novoStatusPedido = PedidoStatus.CANCELADO;
       }
-      
+
       // 3. Atualiza o status do pedido
       pedido.status = novoStatusPedido;
       await pedidoRepo.save(pedido);
@@ -96,7 +101,6 @@ export class PagamentoService {
       // 4. Commita a transação
       await queryRunner.commitTransaction();
       return pagamentoSalvo;
-
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw err;
@@ -104,5 +108,4 @@ export class PagamentoService {
       await queryRunner.release();
     }
   }
-
 }

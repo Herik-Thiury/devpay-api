@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsInt, IsString, IsIn, IsNumber, Min } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsInt,
+  IsString,
+  IsIn,
+  IsNumber,
+  Min,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreatePagamentoDto {
@@ -9,7 +16,9 @@ export class CreatePagamentoDto {
 
   @IsNotEmpty({ message: 'O método é obrigatório.' })
   @IsString({ message: 'O método deve ser uma string.' })
-  @IsIn(['Cartão', 'Boleto', 'PIX'], { message: 'Método de pagamento inválido.' })
+  @IsIn(['Cartão', 'Boleto', 'PIX'], {
+    message: 'Método de pagamento inválido.',
+  })
   metodo: string;
 
   @IsNotEmpty({ message: 'O valor é obrigatório.' })

@@ -34,7 +34,7 @@ integração no branch principal.
 Adotamos o **GitHub Flow** para garantir entregas rápidas e contínuas:
 * Uso de **branches curtas** (`feature/`, `fix/`).
 * Proteção da branch `main` (bloqueio de commits diretos).
-* Obrigatoriedade de **Pull Requests** com revisão por pares.
+* É necessário ter **Pull Requests** com revisão por pares.
 * Exigência de pipeline verde (*CI Green*) para a aprovação de merges.
 * Prática de **Squash and Merge** para manter o histórico da branch principal limpo.
 
